@@ -7,7 +7,7 @@ const getPokemonInfo = async (pokemonName) => {
 
 const displayPokemon = async () => {
     const pokemonList = document.getElementById('pokemonList');
-    for (let i = 1; i <= 14; i++) {
+    for (let i = 1; i <= 21; i++) {
         const pokemonName = `${i}`;
         const pokemonInfo = await getPokemonInfo(pokemonName);
         const pokemonImage = pokemonInfo.sprites.front_default;
