@@ -25,5 +25,21 @@ const displayPokemon = async () => {
     }
 };
 
+const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('input', () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        const pokemonCards = pokemonList.querySelectorAll('.pokemonCard');
+        pokemonCards.forEach(card => {
+            const pokemonName = card.querySelector('div').textContent.toLowerCase();
+            if (pokemonName.includes(searchTerm)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    });
+
+
+
 displayPokemon();
 

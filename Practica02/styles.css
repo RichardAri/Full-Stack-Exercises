@@ -1,8 +1,8 @@
-body{
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: whitesmoke;
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: whitesmoke;
 }
 
 h1 {
@@ -36,5 +36,14 @@ h1 {
 .pokemonImage {
   width: auto;
   height: auto;
+  padding: 10px;
+}
+
+#searchInput {
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
   padding: 10px;
 }
