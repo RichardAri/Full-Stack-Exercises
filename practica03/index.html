@@ -1,11 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #contenedorPrincipal {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      height: 100%;
+    }
+
+    .contenedorSecundario {
+      flex: 1;
+      width: calc(100% / 3);
+      height: 100%;
+      background-size: cover; /* Para que la imagen se ajuste al contenedor */
+      background-position: center;
+    }
+    @media screen and (max-width: 700px) {
+      #contenedorPrincipal {
+        flex-direction: column;
+      }
+      .contenedorSecundario {
+        width: 100%;
+        height: calc(100% / 3);
+      }
+    }
+
+    #izquierda {
+      background-image: url(./plato3.jpg);
+    }
+
+    #centro {
+      background-color: white;
+    }
+
+    #derecha {
+      background-image: url(./Tallarines_Rojos.png);
+    }
+  </style>
+  <body>
+    <section id="contenedorPrincipal">
+      <div class="contenedorSecundario" id="izquierda"></div>
+      <div class="contenedorSecundario" id="centro"></div>
+      <div class="contenedorSecundario" id="derecha"></div>
+    </section>
+  </body>
 </html>
