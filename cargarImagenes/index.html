@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    
+    body {
+    width: 100vw;
+    height: 100vh;
+    background-size: cover; /* Ajusta la imagen de fondo al tamaño del cuerpo */
+    background-position: center; /* Centra la imagen de fondo */
+    background-repeat: no-repeat; /* Evita la repetición de la imagen de fondo */
+}
+.formulario{
+    background-color: whitesmoke;  
+    display: flexbox;
+    margin: auto;
+    padding-top: 30px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    color: #4444dd;
+}
+
+.boton{
+    margin-top: 10px;
+    border-radius: 20px;
+    background-color: rgba(150, 220, 190, 0.5);
+    padding:10px 20px;
+    border-color: rgba(150, 220, 190, 0.5);
+    color: rgb(66, 67, 65);
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+.boton:hover{
+    background-color: rgba(150, 220, 190, 1);
+}
+
+</style></html>,
+</style>
+<body>
+    <form method="post" enctype="multipart/form-data" class="formulario">
+        <div>
+            <label for="profile_pic">Choose file to upload</label>
+            <input type="file" id="profile_pic" name="profile_pic" accept=".jpg, .jpeg, .png" onchange="previewImage(event)" />
+        </div>
+        <div>
+            <button type="submit" class="boton">Submit</button>
+        </div>
+    </form>
+    <script src="script.js"></script>
+</body>
+<script>
+    function previewImage(event) {
+    const body = document.querySelector('body');
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function() {
+        body.style.backgroundImage = `url(${reader.result})`;
+    }
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+}
+
+</script>
+</html>
