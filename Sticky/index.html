@@ -1,33 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-  </head>
-  <style>
-    body {
-      background-color: #222;
-      padding: 20px;
-    }
-    .stickynote {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      box-sizing: border-box;
-      padding: 10px;
-      transform: rotate(5deg);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .box {
-      background-color: red;
-    }
-  </style>
-  <body>
-    <div>
-      <div class="box stickynote"></div>
-    </div>
-  </body>
+    <style>
+        body {
+            background-color: #222;
+            padding: 20px;
+        }
+        .stickynote {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            box-sizing: border-box;
+            padding: 10px;
+            transform: rotate(5deg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+        }
+        .stickynote:active {
+            cursor: grabbing;
+        }
+        .box {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <div class="box stickynote"></div>
+    <script>
+        const stickynote = document.querySelector('.stickynote');
+
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        stickynote.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            offsetX = e.clientX - stickynote.offsetLeft;
+            offsetY = e.clientY - stickynote.offsetTop;
+            stickynote.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (isDragging) {
+                stickynote.style.left = `${e.clientX - offsetX}px`;
+                stickynote.style.top = `${e.clientY - offsetY}px`;
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            stickynote.style.cursor = 'grab';
+        });
+    </script>
+</body>
 </html>
