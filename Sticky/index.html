@@ -1,60 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Sticky Notes</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Montserrat"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        body {
-            background-color: #222;
-            padding: 20px;
-        }
-        .stickynote {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            box-sizing: border-box;
-            padding: 10px;
-            transform: rotate(5deg);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: grab;
-        }
-        .stickynote:active {
-            cursor: grabbing;
-        }
-        .box {
-            background-color: red;
-        }
-    </style>
-</head>
-<body>
-    <div class="box stickynote"></div>
-    <script>
-        const stickynote = document.querySelector('.stickynote');
+      body {
+        background-color: #222;
+        padding: 20px;
+        color: white;
+        font-family: "Montserrat";
+      }
+      .stickynote {
+        position: absolute;
+        width: 200px;
+        height: 200px;
+        box-sizing: border-box;
+        padding: 10px;
+        background-color: yellow;
+        transform: rotate(0deg);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        cursor: grab;
+        overflow: hidden;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      .stickynote:active {
+        cursor: grabbing;
+      }
+      .yellow {
+        background-color: #f5e44a;
+      }
+      .blue {
+        background-color: #3db3e9;
+      }
+      .pink {
+        background-color: #e46791;
+      }
+      .green {
+        background-color: #a4df61;
+      }
 
+      .stickynote .content {
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        background-color: inherit;
+        outline: none;
+        resize: none;
+        border: none;
+        font-family: inherit;
+        font-size: inherit;
+        line-height: inherit;
+      }
+
+      .stickynote::before {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        top: 0;
+        left: 0;
+        background-color: inherit;
+        clip-path: polygon(0 0, 100% 0, 0 100%);
+        transform: translate(-15px, -15px) rotate(-10deg);
+        box-shadow: -5px 5px 5px rgba(0, 0, 0, 0.2);
+      }
+      .stickynote::after {
+        content: "";
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        bottom: 0;
+        right: 0;
+        background-color: inherit;
+        clip-path: polygon(100% 100%, 0 100%, 100% 0);
+        transform: translate(15px, 15px) rotate(10deg);
+        box-shadow: 5px -5px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      #toolbar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        padding: 10px;
+        background-color: #444;
+      }
+
+      #addNoteBtn,
+      #saveBtn,
+      #toggleModeBtn {
+        padding: 10px 20px;
+        cursor: pointer;
+        background-color: #666;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 22px;
+      }
+
+      .light-mode {
+        background-color: #fff;
+        color: #000;
+      }
+      .light-mode .stickynote {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      }
+      .light-mode #toolbar {
+        background-color: #ddd;
+      }
+      .light-mode #addNoteBtn,
+      .light-mode #saveBtn,
+      .light-mode #toggleModeBtn {
+        background-color: #ccc;
+        color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="toolbar">
+      <button id="addNoteBtn">+</button>
+      <button id="saveBtn">💾</button>
+      <button id="toggleModeBtn">🌓</button>
+    </div>
+    <div class="box stickynote yellow">
+      <textarea class="content" placeholder="Escribe aquí..."></textarea>
+    </div>
+    <script>
+      const addNoteBtn = document.getElementById("addNoteBtn");
+      const saveBtn = document.getElementById("saveBtn");
+      const toggleModeBtn = document.getElementById("toggleModeBtn");
+      const body = document.body;
+      let colors = ["yellow", "blue", "pink", "green"];
+      let noteCount = 1;
+
+      addNoteBtn.addEventListener("click", () => {
+        const newNote = document.createElement("div");
+        newNote.className = `box stickynote ${
+          colors[noteCount % colors.length]
+        }`;
+        newNote.style.top = `${Math.random() * window.innerHeight}px`;
+        newNote.style.left = `${Math.random() * window.innerWidth}px`;
+
+        const textarea = document.createElement("textarea");
+        textarea.className = "content";
+        textarea.placeholder = "Escribe aquí...";
+        newNote.appendChild(textarea);
+
+        document.body.appendChild(newNote);
+        makeDraggable(newNote);
+        noteCount++;
+      });
+
+      saveBtn.addEventListener("click", () => {
+        html2canvas(document.body).then((canvas) => {
+          const link = document.createElement("a");
+          link.href = canvas.toDataURL("image/png");
+          link.download = "stickynotes.png";
+          link.click();
+        });
+      });
+
+      toggleModeBtn.addEventListener("click", () => {
+        body.classList.toggle("light-mode");
+      });
+
+      function loadNotes() {
+        const savedNotes = JSON.parse(localStorage.getItem("stickynotes"));
+        if (savedNotes) {
+          savedNotes.forEach((noteData) => {
+            const newNote = document.createElement("div");
+            newNote.className = `box stickynote ${noteData.color}`;
+            newNote.style.top = noteData.top;
+            newNote.style.left = noteData.left;
+
+            const textarea = document.createElement("textarea");
+            textarea.className = "content";
+            textarea.value = noteData.content;
+            newNote.appendChild(textarea);
+
+            document.body.appendChild(newNote);
+            makeDraggable(newNote);
+          });
+        }
+      }
+
+      function makeDraggable(element) {
         let isDragging = false;
         let offsetX, offsetY;
 
-        stickynote.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            offsetX = e.clientX - stickynote.offsetLeft;
-            offsetY = e.clientY - stickynote.offsetTop;
-            stickynote.style.cursor = 'grabbing';
+        element.addEventListener("mousedown", (e) => {
+          if (e.target.tagName === "TEXTAREA") return; // Evitar arrastrar cuando se edita texto
+          isDragging = true;
+          offsetX = e.clientX - element.offsetLeft;
+          offsetY = e.clientY - element.offsetTop;
+          element.style.cursor = "grabbing";
         });
 
-        document.addEventListener('mousemove', (e) => {
-            if (isDragging) {
-                stickynote.style.left = `${e.clientX - offsetX}px`;
-                stickynote.style.top = `${e.clientY - offsetY}px`;
-            }
+        document.addEventListener("mousemove", (e) => {
+          if (isDragging) {
+            element.style.left = `${e.clientX - offsetX}px`;
+            element.style.top = `${e.clientY - offsetY}px`;
+          }
         });
 
-        document.addEventListener('mouseup', () => {
-            isDragging = false;
-            stickynote.style.cursor = 'grab';
+        document.addEventListener("mouseup", () => {
+          isDragging = false;
+          element.style.cursor = "grab";
         });
+      }
+
+      document.querySelectorAll(".stickynote").forEach(makeDraggable);
+      loadNotes();
     </script>
-</body>
+  </body>
 </html>
