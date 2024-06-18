@@ -1,0 +1,71 @@
+*{
+    font-family: "Montserrat";
+}
+body{
+    margin: 0;
+    padding: 0;
+    background-color: #222;
+}
+
+.navbar{
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #7c7c7c;
+    padding-bottom: 0px;
+}
+
+.title{
+    color: #fff;
+}
+
+.navitem{
+    margin: 0 auto;
+    font-size: 20px;
+    font-weight: 100;
+}
+
+.btn-input{
+    margin-top: 20px;
+    text-align: center;
+    color: #fff;
+    border-radius: 15px;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    -ms-border-radius: 15px;
+    -o-border-radius: 15px;
+    padding: 20px;
+    background-color: #222;
+    font-size: medium;
+}
+
+h2{
+    text-align: center;
+    color: #fff;
+}
+
+form{
+    background-color: transparent;
+    padding: 20px;
+    width: 500px;
+    margin: 0 auto;
+    box-shadow: 0 0 55px #fff2;
+    margin-top: 50px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+
+textarea{
+    font-family: sans-serif;
+    resize: none;
+    width: 100%;
+    height: 20vh;
+    background-color: rgba(17, 17, 15, 0.2);
+    color: #fff;
+}
+
+.btn-buscar{
+    width: 101.5%;
+}
